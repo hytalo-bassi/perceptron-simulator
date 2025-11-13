@@ -1,0 +1,92 @@
+<!-- 
+    Este site foi criado por Hytalo Bassi (https://github.com/hytalo-bassi/) para ser utilizado como uma
+    ferramenta de aprendizado para IA.
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Interativo de Perceptron</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css" integrity="sha384-WcoG4HRXMzYzfCgiyfrySxx90XSl2rxY5mnVY5TwtWE6KLrArNKn0T/mOgNL0Mmi" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.js" integrity="sha384-J+9dG2KMoiR9hqcFao0IBLwxt6zpcyN68IgwzsCSkbreXUjmNVRhPFTssqdSGjwQ" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.js"></script>
+    <script src="perceptron.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Simulador Interativo de Perceptron</h1>
+        <p>Explore o funcionamento de um neurônio artificial em tempo real</p>
+    </header>
+
+    <div class="container">
+        <p>
+        Os perceptrons recebem uma lista de valores de entradas \(X\) que é então multiplicada por uma matriz de pesos \(W\) e então computam a soma:
+        $$\sum_{i=0}{X_iW_i} + b=\textbf{X}\cdot\textbf{W}+b$$
+        Veja isto na prática:
+        </p>
+        <!-- os desenhos do p5.js entram aqui neste div -->
+        <div id="canvas-container"></div>
+
+        <div class="controls">
+            <div class="control-group">
+                <h3>Entradas (Inputs)</h3>
+                <div class="input-control">
+                    <label>Entrada \(X_1\): <span class="value-display" id="x1-value">0.5</span></label>
+                    <input type="range" id="x1" min="-1" max="1" step="0.1" value="0.5">
+                </div>
+                <div class="input-control">
+                    <label>Entrada \(X_2\): <span class="value-display" id="x2-value">0.5</span></label>
+                    <input type="range" id="x2" min="-1" max="1" step="0.1" value="0.5">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Pesos (Weights)</h3>
+                <div class="input-control">
+                    <label>Peso \(W_1\): <span class="value-display" id="w1-value">0.8</span></label>
+                    <input type="range" id="w1" min="-2" max="2" step="0.1" value="0.8">
+                </div>
+                <div class="input-control">
+                    <label>Peso \(W_2\): <span class="value-display" id="w2-value">0.6</span></label>
+                    <input type="range" id="w2" min="-2" max="2" step="0.1" value="0.6">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Bias</h3>
+                <div class="input-control">
+                    <label>Bias (\(b\)): <span class="value-display" id="b-value">-0.5</span></label>
+                    <input type="range" id="b" min="-2" max="2" step="0.1" value="-0.5">
+                </div>
+            </div>
+        </div>
+        <p>
+            O que você viu a cima é exatamente como um Perceptron funciona. Ele recebe uma lista de entradas, multiplica pelos pesos, soma com o bias e devolve uma saída. Porém, isso não ajuda muito... a vantagem do Perceptron é que ele pode aprender sozinho!
+        </p>
+        <br>
+        <p>
+            Se você falar ao Perceptron começar a treinar e dar a ele alguns valores de entrada e o que você espera que seja a saída, ele começara a se reajustar, mudando os pesos automaticamente, e seu bias. Basicamente, ele pensa assim, se você queria que ele dizesse 10, mas ele disse 20, então ele iria começar a abaixar os pesos e o bias; agora se ele falasse 5, ele começaria a aumentar! Isso é o que é chamado de Regra de Perceptron!
+            $$\textbf{W}\leftarrow \textbf{W}+\eta\times\text{Erro}\times\textbf{X}$$
+            $$b\leftarrow b+\eta\times\text{Erro}$$
+            Sendo \(\text{Erro}\) o tanto que o Perceptron errou do que deveria ser o certo, e \(\eta\) uma constante muito, muito pequena, que servirá somente para ajustar o quão agressiva as mudanças do perceptron devem ser. Para quem é muito matemático:
+            $$\text{Erro}=\text{output}_\text{esperado}-\text{output}_\text{perceptron}$$
+        </p>
+    </div>
+
+    <footer>
+        <p>Desenvolvido com p5.js | Projeto Educacional por <a href="">Hytalo Bassi</a></p>
+    </footer>
+
+    <!-- 
+        Colocar os scripts no final do html garante que quando o script rodar,
+        o DOM já tenha criado os elementos como o `div.canvas-container`.
+    -->
+    <script src="sketch.js"></script>
+</body>
+</html>
