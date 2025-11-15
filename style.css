@@ -32,6 +32,26 @@ header p {
     opacity: 0.9;
 }
 
+button {
+  height: fit-content;
+  width: fit-content;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  margin: 8px 4px;
+}
+
+.option-green {
+    background-color: #4BB543;
+    color: white;
+}
+
+.option-red {
+    background-color: #D0342C;
+    color: white;
+}
+
+
 .container {
     background: white;
     border-radius: 20px;
@@ -41,13 +61,18 @@ header p {
     width: 100%;
 }
 
-#canvas-container {
+[id^="canvas-container"] {
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
     background: #f8f9fa;
     border-radius: 10px;
     padding: 20px;
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
 }
 
 .controls {
