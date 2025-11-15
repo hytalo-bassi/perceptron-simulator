@@ -77,6 +77,39 @@
             Sendo \(\text{Erro}\) o tanto que o Perceptron errou do que deveria ser o certo, e \(\eta\) uma constante muito, muito pequena, que servirá somente para ajustar o quão agressiva as mudanças do perceptron devem ser. Para quem é muito matemático:
             $$\text{Erro}=\text{output}_\text{esperado}-\text{output}_\text{perceptron}$$
         </p>
+        <p>
+            Vamos tentar treinar um Perceptron. Precisamos dar no mínimo duas entradas-saídas para o Perceptron conseguir aprender. Tente fazer o Perceptron aprender a prever a temperatura em °F dado uma temperatura em °C. Para isso, é bom saber que \(0°C = 32°F\) e que \(10°C=50°F\):
+        </p>
+        <div class="controls">
+            <div class="control-group">
+                <h3>Entradas (Inputs)</h3>
+                <div class="input-control">
+                    <label>Entrada \(X_1\): <span class="value-display" id="p2-x1-value">0</span></label>
+                    <input type="range" id="p2-x1" min="-200" max="200" value="0">
+                </div>
+                <div class="input-control">
+                    <label>Entrada \(X_2\): <span class="value-display" id="p2-x2-value">10</span></label>
+                    <input type="range" id="p2-x2" min="-200" max="200" value="10">
+                </div>
+            </div>
+            <div class="control-group">
+                <h3>Saídas (Outputs)</h3>
+                <div class="input-control">
+                    <label>Saída \(Y_1\) para \(X_1\): <span class="value-display" id="p2-y1-value">32</span></label>
+                    <input type="range" id="p2-y1" min="-200" max="200" value="32">
+                </div>
+                <div class="input-control">
+                    <label>Saída \(Y_2\) para \(X_2\): <span class="value-display" id="p2-y2-value">50</span></label>
+                    <input type="range" id="p2-y2" min="-200" max="200" value="50">
+                </div>
+            </div>
+        </div>
+        <div class="center-content">
+            <button class="option-green" id='start-training'>Começar</button>
+            <button class="option-red" id="stop-training">Parar</button>
+        </div>
+        <div id="canvas-container-2"></div>
+        
     </div>
 
     <footer>

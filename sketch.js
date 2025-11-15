@@ -1,3 +1,4 @@
+const TRAINING_INTERVAL_MS = 5;
 var perceptron1 = Perceptron.create({ n: 2, activationFunction: null });
 
 function drawText({p, label, x, y, fill = 0, textSize = 16, noStroke = false, alignX = p.CENTER, alignY = p.CENTER }) {
@@ -154,4 +155,94 @@ function sketch1(p) {
   }
 }
 
+function sketch2(p) {
+  let perceptron = Perceptron.create({ n: 1, activationFunction: null, learningRate: 0.001 });
+  let x1;
+  let x2;
+  let y1;
+  let y2;
+  let output;
+  let training = false;
+  let epoch = 0;
+
+  p.setup = function () {
+      setInterval(function () {
+        if (!training) return;
+        perceptron.train([x1], y1);
+        perceptron.train([x2], y2);
+        
+        epoch++;
+        output = perceptron.output(x1);
+      }, TRAINING_INTERVAL_MS);
+
+    function updateValues() {
+      x1 = getVal('p2-x1');
+      x2 = getVal('p2-x2');
+      y1 = getVal('p2-y1');
+      y2 = getVal('p2-y2');
+
+      document.getElementById('p2-x1-value').textContent = x1.toFixed(1);
+      // document.getElementById('p2-x2-value').textContent = x2.toFixed(1);
+      document.getElementById('p2-y1-value').textContent = y1.toFixed(1);
+      document.getElementById('p2-y2-value').textContent = y2.toFixed(1);
+        
+      output = perceptron.output(x1);
+    }
+
+    let canvas = p.createCanvas(800, 400);
+    canvas.parent('canvas-container-2');
+    
+    updateValues();
+    
+    // Event listeners
+    document.getElementById('p2-x1').addEventListener('input', updateValues);
+    document.getElementById('p2-x2').addEventListener('input', updateValues);
+    document.getElementById('p2-y1').addEventListener('input', updateValues);
+    document.getElementById('p2-y2').addEventListener('input', updateValues);
+
+    document.getElementById('start-training').addEventListener('click', function () {
+      training = true;
+    });
+    document.getElementById('stop-training').addEventListener('click', function () {
+      training = false;
+    });
+  }
+
+  p.draw = function () {
+    p.background(248, 249, 250);
+    
+    let inputX = 150;
+    let neuronX = 400;
+    let outputX = 650;
+    let w1 = perceptron.weights[0];
+
+    let neuronY = 200;
+
+    drawText({ p, label: `Época ${epoch}`, x: 400, y: 20 });
+
+    p.strokeWeight(p.abs(w1 * 3));
+    p.stroke(w1 > 0 ? p.color(102, 126, 234) : p.color(234, 102, 102));
+    p.line(inputX, neuronY, neuronX, neuronY);
+    
+    p.strokeWeight(4);
+    p.stroke(output > 0 ? p.color(76, 175, 80) : p.color(244, 67, 54));
+    p.line(neuronX, neuronY, outputX, neuronY);
+    
+    drawNode(p, inputX, neuronY, 40, x1, 'X₁');
+    
+    drawNeuron(p, neuronX, neuronY, 80);
+    
+    drawOutputNode(p, outputX, neuronY, 50, output);
+    
+    drawWeightLabel(p, inputX + 80, neuronY - 30, w1, 'W₁');
+    
+    p.fill(118, 75, 162);
+    p.noStroke();
+    p.textSize(14);
+    p.textAlign(p.CENTER);
+    p.text('b = ' + perceptron.bias.toFixed(1), neuronX, neuronY + 60);
+  }
+}
+
 new p5(sketch1);
+new p5(sketch2);
