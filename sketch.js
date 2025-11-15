@@ -2,17 +2,17 @@ var perceptron1 = Perceptron.create({ n: 2, activationFunction: null });
 
 function setup() {
   let canvas = createCanvas(800, 400);
-  canvas.parent('canvas-container');
+  canvas.parent('canvas-container-1');
   
   // Inicializar valores
   updateValues();
   
   // Event listeners
-  document.getElementById('x1').addEventListener('input', updateValues);
-  document.getElementById('x2').addEventListener('input', updateValues);
-  document.getElementById('w1').addEventListener('input', updateValues);
-  document.getElementById('w2').addEventListener('input', updateValues);
-  document.getElementById('b').addEventListener('input', updateValues);
+  document.getElementById('p1-x1').addEventListener('input', updateValues);
+  document.getElementById('p1-x2').addEventListener('input', updateValues);
+  document.getElementById('p1-w1').addEventListener('input', updateValues);
+  document.getElementById('p1-w2').addEventListener('input', updateValues);
+  document.getElementById('p1-b').addEventListener('input', updateValues);
 }
 
 function draw() {
@@ -149,18 +149,18 @@ function drawWeightLabel(x, y, weight, label) {
 
 function updateValues() {
   // Ler valores dos sliders
-  x1 = parseFloat(document.getElementById('x1').value);
-  x2 = parseFloat(document.getElementById('x2').value);
-  w1 = parseFloat(document.getElementById('w1').value);
-  w2 = parseFloat(document.getElementById('w2').value);
-  bias = parseFloat(document.getElementById('b').value);
+  x1 = parseFloat(document.getElementById('p1-x1').value);
+  x2 = parseFloat(document.getElementById('p1-x2').value);
+  w1 = parseFloat(document.getElementById('p1-w1').value);
+  w2 = parseFloat(document.getElementById('p1-w2').value);
+  bias = parseFloat(document.getElementById('p1-b').value);
   
   // Atualizar displays
-  document.getElementById('x1-value').textContent = x1.toFixed(1);
-  document.getElementById('x2-value').textContent = x2.toFixed(1);
-  document.getElementById('w1-value').textContent = w1.toFixed(1);
-  document.getElementById('w2-value').textContent = w2.toFixed(1);
-  document.getElementById('b-value').textContent = bias.toFixed(1);
+  document.getElementById('p1-x1-value').textContent = x1.toFixed(1);
+  document.getElementById('p1-x2-value').textContent = x2.toFixed(1);
+  document.getElementById('p1-w1-value').textContent = w1.toFixed(1);
+  document.getElementById('p1-w2-value').textContent = w2.toFixed(1);
+  document.getElementById('p1-b-value').textContent = bias.toFixed(1);
   
   perceptron1.updateFeatures({
     weights: [w1, w2],
