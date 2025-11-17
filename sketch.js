@@ -1,6 +1,29 @@
+/**
+ * Constante que define o intervalo de tempo (em milissegundos) entre cada iteração de treinamento
+ * @constant {number}
+ */
 const TRAINING_INTERVAL_MS = 5;
+
+/**
+ * Instância global do Perceptron com 2 entradas e sem função de ativação
+ * @type {Perceptron}
+ */
 var perceptron1 = Perceptron.create({ n: 2, activationFunction: null });
 
+/**
+ * Desenha texto no canvas com configurações personalizáveis
+ * 
+ * @param {Object} config - Objeto de configuração do texto
+ * @param {p5} config.p - Instância do p5.js
+ * @param {string} config.label - Texto a ser exibido
+ * @param {number} config.x - Posição X do texto
+ * @param {number} config.y - Posição Y do texto
+ * @param {number|string|p5.Color} [config.fill=0] - Cor de preenchimento do texto
+ * @param {number} [config.textSize=16] - Tamanho da fonte
+ * @param {boolean} [config.noStroke=false] - Se true, remove o contorno do texto
+ * @param {number} [config.alignX=p.CENTER] - Alinhamento horizontal (p.LEFT, p.CENTER, p.RIGHT)
+ * @param {number} [config.alignY=p.CENTER] - Alinhamento vertical (p.TOP, p.CENTER, p.BOTTOM)
+ */
 function drawText({p, label, x, y, fill = 0, textSize = 16, noStroke = false, alignX = p.CENTER, alignY = p.CENTER }) {
   p.fill(fill);
   if (noStroke) p.noStroke();
@@ -9,6 +32,17 @@ function drawText({p, label, x, y, fill = 0, textSize = 16, noStroke = false, al
   p.text(label, x, y);
 }
 
+/**
+ * Desenha um nó de entrada com valor e rótulo
+ * A cor do nó varia de acordo com o valor
+ * 
+ * @param {p5} p - Instância do p5.js
+ * @param {number} x - Posição X do centro do nó
+ * @param {number} y - Posição Y do centro do nó
+ * @param {number} size - Diâmetro do círculo
+ * @param {number} value - Valor numérico do nó (usado para coloração)
+ * @param {string} label - Rótulo a ser exibido acima do nó
+ */
 function drawNode(p, x, y, size, value, label) {
     let c = p.map(value, -1, 1, 0, 255);
     p.fill(c, 150, 255 - c);
@@ -21,6 +55,15 @@ function drawNode(p, x, y, size, value, label) {
     drawText({ p, label: value.toFixed(1), x, y, textSize: 14 });
 }
 
+/**
+ * Desenha o neurônio/perceptron com efeito de gradiente e símbolo de soma (Σ)
+ * Representa visualmente a unidade de processamento neural
+ * 
+ * @param {p5} p - Instância do p5.js
+ * @param {number} x - Posição X do centro do neurônio
+ * @param {number} y - Posição Y do centro do neurônio
+ * @param {number} size - Diâmetro do círculo do neurônio
+ */
 function drawNeuron(p, x, y, size) {
     // Gradiente
     for(let r = size; r > 0; r -= 2) {
@@ -41,6 +84,16 @@ function drawNeuron(p, x, y, size) {
     drawText({ p, label: 'Perceptron', x, y: y - size/2 - 20 });
 }
 
+/**
+ * Desenha o nó de saída com cor indicando o resultado
+ * Verde para valores positivos, vermelho para valores negativos
+ * 
+ * @param {p5} p - Instância do p5.js
+ * @param {number} x - Posição X do centro do nó
+ * @param {number} y - Posição Y do centro do nó
+ * @param {number} size - Diâmetro do círculo
+ * @param {number} value - Valor de saída do perceptron
+ */
 function drawOutputNode(p, x, y, size, value) {
     // Cor baseada na saída
     if(value > 0) {
@@ -57,6 +110,15 @@ function drawOutputNode(p, x, y, size, value) {
     drawText({ p, label: value.toFixed(2), x, y, fontSize: 14, fill: 255 });
 }
 
+/**
+ * Desenha uma etiqueta com o valor do peso em um retângulo arredondado
+ * 
+ * @param {p5} p - Instância do p5.js
+ * @param {number} x - Posição X do centro da etiqueta
+ * @param {number} y - Posição Y do centro da etiqueta
+ * @param {number} weight - Valor do peso a ser exibido
+ * @param {string} label - Rótulo do peso (ex: 'W₁', 'W₂')
+ */
 function drawWeightLabel(p, x, y, weight, label) {
     p.fill(255, 255, 255, 200);
     p.stroke(0);
@@ -66,17 +128,39 @@ function drawWeightLabel(p, x, y, weight, label) {
     drawText({ p, label: `${label}: ${weight.toFixed(1)}`, x, y, textSize: 12, noStroke: true });
 }
 
+/**
+ * Obtém o valor numérico de um elemento HTML input pelo ID
+ * 
+ * @param {string} id - ID do elemento HTML
+ * @returns {number} Valor numérico parseado do input
+ */
 function getVal(id) {
   return parseFloat(document.getElementById(id).value);
 }
 
+/**
+ * Sketch 1: Visualização interativa de um Perceptron com 2 entradas
+ * Permite ajustar manualmente as entradas (X₁, X₂), pesos (W₁, W₂) e bias através de sliders
+ * Mostra visualmente como os valores fluem pela rede e produzem uma saída
+ * 
+ * @param {p5} p - Instância do p5.js no modo de instância
+ */
 function sketch1(p) {
   let perceptron = Perceptron.create({ n: 2, activationFunction: null });
   let x1;
   let x2;
   let output;
 
+  /**
+   * Função de configuração inicial do p5.js
+   * Cria o canvas, inicializa valores e configura event listeners para os controles
+   */
   p.setup = function () {
+
+    /**
+     * Atualiza os valores do perceptron com base nos inputs do usuário
+     * Recalcula a saída sempre que algum valor muda
+     */
     function updateValues() {
       x1 = getVal('p1-x1');
       x2 = getVal('p1-x2');
@@ -113,6 +197,14 @@ function sketch1(p) {
     document.getElementById('p1-b').addEventListener('input', updateValues);
   }
 
+  /**
+   * Função de desenho contínuo do p5.js
+   * Renderiza a visualização completa da rede neural incluindo:
+   * - Nós de entrada (X₁, X₂)
+   * - Conexões com pesos (W₁, W₂)
+   * - Neurônio/Perceptron com bias
+   * - Nó de saída
+   */
   p.draw = function () {
     p.background(248, 249, 250);
     
@@ -155,6 +247,13 @@ function sketch1(p) {
   }
 }
 
+/**
+ * Sketch 2: Visualização de treinamento automático do Perceptron
+ * Demonstra o aprendizado do perceptron através de exemplos de treinamento
+ * Permite iniciar/parar o treinamento e observar a evolução dos pesos e bias
+ * 
+ * @param {p5} p - Instância do p5.js no modo de instância
+ */
 function sketch2(p) {
   let perceptron = Perceptron.create({ n: 1, activationFunction: null, learningRate: 0.001 });
   let x1;
@@ -165,7 +264,16 @@ function sketch2(p) {
   let training = false;
   let epoch = 0;
 
+  /**
+   * Função de configuração inicial do p5.js
+   * Configura o loop de treinamento, canvas e event listeners
+   */
   p.setup = function () {
+      /**
+       * Intervalo de treinamento que executa a cada TRAINING_INTERVAL_MS
+       * Treina o perceptron com dois exemplos (x1->y1 e x2->y2)
+       * Incrementa o contador de épocas e atualiza a saída
+       */
       setInterval(function () {
         if (!training) return;
         perceptron.train([x1], y1);
@@ -175,6 +283,10 @@ function sketch2(p) {
         output = perceptron.output(x1);
       }, TRAINING_INTERVAL_MS);
 
+    /**
+     * Atualiza os valores das entradas e saídas desejadas
+     * Recalcula a saída atual do perceptron
+     */
     function updateValues() {
       x1 = getVal('p2-x1');
       x2 = getVal('p2-x2');
@@ -208,6 +320,15 @@ function sketch2(p) {
     });
   }
 
+  /**
+   * Função de desenho contínuo do p5.js
+   * Renderiza a visualização da rede neural durante o treinamento:
+   * - Contador de épocas
+   * - Nó de entrada (X₁)
+   * - Conexão com peso (W₁)
+   * - Neurônio/Perceptron com bias
+   * - Nó de saída
+   */
   p.draw = function () {
     p.background(248, 249, 250);
     
