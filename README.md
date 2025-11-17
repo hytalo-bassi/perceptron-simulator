@@ -6,6 +6,10 @@ Este projeto apresenta uma visualização interativa e dinâmica de um perceptro
 
 O sistema permite ajustar valores de entrada dinamicamente e visualizar graficamente o fluxo de informação através do neurônio artificial, facilitando a compreensão do funcionamento básico de aprendizado de máquina.
 
+## Screenshots
+
+Veja como está o site clicando [aqui](screenshots/tela-cheia.png).
+
 ## Importância
 
 O perceptron, proposto por Frank Rosenblatt em 1958, representa um dos conceitos fundamentais da inteligência artificial e do aprendizado de máquina. Compreender seu funcionamento é essencial para:
