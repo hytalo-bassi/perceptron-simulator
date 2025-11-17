@@ -37,8 +37,8 @@ Não é necessário instalar nenhum software adicional ou dependências.
 
 1. Clone ou baixe este repositório:
 ```bash
-git clone https://github.com/seu-usuario/perceptron-visualizer.git
-cd perceptron-visualizer
+git clone https://github.com/hytalo-bassi/perceptron-simulator.git
+cd perceptron-simulator
 ```
 
 2. Abra o arquivo `index.html` diretamente no seu navegador:
