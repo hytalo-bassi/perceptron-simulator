@@ -6,6 +6,7 @@ Este projeto apresenta uma visualização interativa e dinâmica de um perceptro
 
 O sistema permite ajustar valores de entrada dinamicamente e visualizar graficamente o fluxo de informação através do neurônio artificial, facilitando a compreensão do funcionamento básico de aprendizado de máquina.
 
+**Você também pode acessar o site diretamente clicando [aqui](https://perceptron-simulator-one.vercel.app/)**
 ## Screenshots
 
 Veja como está o site clicando [aqui](screenshots/tela-cheia.png).
